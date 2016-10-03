@@ -4,9 +4,9 @@
  * @package Kunena.Administrator.Template
  * @subpackage Config
  *
- * @copyright (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link http://www.kunena.org
+ * @link https://www.kunena.org
  **/
 defined ( '_JEXEC' ) or die ();
 
@@ -239,9 +239,9 @@ defined ( '_JEXEC' ) or die ();
 														<td><?php echo JText::_('COM_KUNENA_LISTCAT_SHOW_MODERATORS_DESC') ?></td>
 													</tr>
 													<tr>
-														<td><?php echo JText::_('COM_KUNENA_CATIMAGEPATH') ?></td>
+														<td><?php echo JText::_('COM_KUNENA_CATIMAGEPATH_LEGACY') ?></td>
 														<td><input type="text" name="cfg_catimagepath" value="<?php echo $this->escape($this->config->catimagepath) ?>" /></td>
-														<td><?php echo JText::_('COM_KUNENA_CATIMAGEPATH_DESC') ?></td>
+														<td><?php echo JText::_('COM_KUNENA_CATIMAGEPATH_LEGACY_DESC') ?></td>
 													</tr>
 													<tr>
 														<td><?php echo JText::_('COM_KUNENA_SHOW_CHILD_CATEGORY_ON_LIST') ?></td>
@@ -347,6 +347,11 @@ defined ( '_JEXEC' ) or die ();
 														<td><?php echo JText::_('COM_KUNENA_CFG_SEARCH_TIME') ?></td>
 														<td><?php echo $this->lists ['searchtime'] ?></td>
 														<td><?php echo JText::_('COM_KUNENA_CFG_SEARCH_TIME_DESC') ?></td>
+													</tr>
+													<tr>
+														<td><?php echo JText::_('COM_KUNENA_ALLOW_CHANGE_SUBJECT_REPLIES_LABEL') ?></td>
+														<td><?php echo $this->lists ['allow_change_subject'] ?></td>
+														<td><?php echo JText::_('COM_KUNENA_ALLOW_CHANGE_SUBJECT_REPLIES_DESC') ?></td>
 													</tr>
 												</tbody>
 											</table>

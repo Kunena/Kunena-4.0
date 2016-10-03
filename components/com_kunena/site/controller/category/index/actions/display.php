@@ -4,9 +4,9 @@
  * @package     Kunena.Site
  * @subpackage  Controller.Message
  *
- * @copyright   (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright   (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link        http://www.kunena.org
+ * @link        https://www.kunena.org
  **/
 defined('_JEXEC') or die;
 
@@ -48,7 +48,7 @@ class ComponentKunenaControllerCategoryIndexActionsDisplay extends KunenaControl
 		$this->categoryButtons = new JObject;
 
 		// Is user allowed to post new topic?
-		if ($this->category->getNewTopicCategory()->exists()) {
+		if ($this->category->isAuthorised('topic.create')) {
 			$this->categoryButtons->set('create',
 				$this->getButton(sprintf($layout, 'create'), 'create', 'topic', 'communication', true)
 			);

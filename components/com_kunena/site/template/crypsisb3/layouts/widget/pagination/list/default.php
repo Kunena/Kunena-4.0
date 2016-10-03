@@ -4,9 +4,9 @@
  * @package     Kunena.Template.Crypsis
  * @subpackage  Layout.Pagination
  *
- * @copyright   (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright   (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link        http://www.kunena.org
+ * @link        https://www.kunena.org
  **/
 defined('_JEXEC') or die;
 
@@ -48,8 +48,8 @@ $last = 0;
 	</ul>
 </nav>
 
-<nav class="pagination test visible-sm">
-	<ul>
+<nav class="visible-xs-block">
+	<ul class="pagination">
 		<?php
 		foreach ($data->pages as $k => $item)
 		{

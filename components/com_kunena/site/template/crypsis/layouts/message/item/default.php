@@ -4,9 +4,9 @@
  * @package     Kunena.Template.Crypsis
  * @subpackage  Layout.Message
  *
- * @copyright   (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright   (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link        http://www.kunena.org
+ * @link        https://www.kunena.org
  **/
 defined('_JEXEC') or die;
 
@@ -37,7 +37,7 @@ $list = array();
 </small>
 
 <div class="badger-left badger-info <?php if ($message->getAuthor()->isModerator()) : ?> badger-moderator <?php endif;?>"
-	 data-badger="<?php echo (!$isReply) ? $this->escape($avatarname) . ' '. JText::_('COM_KUNENA_MESSAGE_CREATED') : $this->escape($avatarname) . ' '. JText::_('COM_KUNENA_MESSAGE_REPLIED') . ' ' . substr($message->displayField('subject'), 0, $subjectlengthmessage); ?>">
+	 data-badger="<?php echo (!$isReply) ? $this->escape($avatarname) . ' '. JText::_('COM_KUNENA_MESSAGE_CREATED') : $this->escape($avatarname) . ' ' . JText::_('COM_KUNENA_MESSAGE_REPLIED'), ' ' . substr($message->displayField('subject'), 0, $subjectlengthmessage); ?>">
 	<div class="kmessage">
 		<p class="kmsg">
 			<?php  if (!$this->me->userid && !$isReply) :
@@ -58,10 +58,10 @@ $list = array();
 				<?php endforeach; ?>
 			</ul>
 		</div>
-	<?php elseif($attachs->total > 0  && !$this->me->exists()):
-		if ( $attachs->image > 0 )
+	<?php elseif ($attachs->total > 0  && !$this->me->exists()):
+		if ($attachs->image > 0 && !$this->config->showimgforguest)
 		{
-			if ( $attachs->image > 1 )
+			if ($attachs->image > 1)
 			{
 				echo KunenaLayout::factory('BBCode/Image')->set('title', JText::_('COM_KUNENA_SHOWIMGFORGUEST_HIDEIMG_MULTIPLES'))->setLayout('unauthorised');
 			}
@@ -71,9 +71,9 @@ $list = array();
 			}
 		}
 
-		if ( $attachs->file > 0 )
+		if ($attachs->file > 0 && !$this->config->showfileforguest)
 		{
-			if ( $attachs->file > 1 )
+			if ($attachs->file > 1)
 			{
 				echo KunenaLayout::factory('BBCode/Image')->set('title', JText::_('COM_KUNENA_SHOWIMGFORGUEST_HIDEFILE_MULTIPLES'))->setLayout('unauthorised');
 			}

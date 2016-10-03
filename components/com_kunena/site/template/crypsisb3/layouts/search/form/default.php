@@ -4,9 +4,9 @@
  * @package     Kunena.Template.Crypsis
  * @subpackage  Layout.Search
  *
- * @copyright   (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright   (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link        http://www.kunena.org
+ * @link        https://www.kunena.org
  **/
 defined('_JEXEC') or die;
 
@@ -62,6 +62,7 @@ $this->addScript('js/search.js');
 					</div>
 				</fieldset>
 
+				<?php if (!$this->config->pubprofile && !JFactory::getUser()->guest || $this->config->pubprofile) : ?>
 				<fieldset class="col-md-6">
 					<legend>
 						<?php echo JText::_('COM_KUNENA_SEARCH_SEARCHBY_USER'); ?>
@@ -71,13 +72,14 @@ $this->addScript('js/search.js');
 						<input id="kusersearch" type="text" name="searchuser" class="form-control"
 						       value="<?php echo $this->escape($this->state->get('query.searchuser')); ?>" />
 					</label>
-					</br>
+					<br>
 					<label>
 						<?php echo JText::_('COM_KUNENA_SEARCH_EXACT'); ?>:
 						<input type="checkbox" name="exactname" value="1"
 							<?php if ($this->state->get('query.exactname')) echo $this->checked; ?> />
 					</label>
 				</fieldset>
+				<?php endif; ?>
 			</div>
 		</div>
 
@@ -158,7 +160,7 @@ $this->addScript('js/search.js');
 						<legend>
 							<?php echo JText::_('COM_KUNENA_SEARCH_SEARCHIN'); ?>
 						</legend>
-						<?php $this->displayCategoryList('categorylist', 'size="10" multiple="multiple" class="form-control"'); ?>
+						<?php $this->displayCategoryList('categorylist', 'class="form-control" size="10" multiple="multiple"'); ?>
 						<label>
 							<input type="checkbox" name="childforums" value="1"
 								<?php if ($this->state->get('query.childforums')) echo 'checked="checked"'; ?> />

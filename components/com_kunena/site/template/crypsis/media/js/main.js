@@ -2,9 +2,9 @@
  * Kunena Component
  * @package Kunena.Template.Crypsis
  *
- * @copyright (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link http://www.kunena.org
+ * @link https://www.kunena.org
  **/
 
 /* Function used to ordering the data by clicking on column title */
@@ -47,6 +47,10 @@ jQuery(document).ready(function() {
 			jQuery("#kchecktarget").attr('disabled', true);
 		}
 	});
+
+	jQuery("input.kcatcheckall").click(function(){
+		jQuery("input.kcatcheckall:checkbox").not(this).prop('checked', this.checked);
+		});
 
 	jQuery(document).ready(function() {
 		jQuery('[rel=popover]').popover();

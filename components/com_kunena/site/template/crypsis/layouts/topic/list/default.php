@@ -4,9 +4,9 @@
  * @package     Kunena.Template.Crypsis
  * @subpackage  Layout.Topic
  *
- * @copyright   (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright   (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link        http://www.kunena.org
+ * @link        https://www.kunena.org
  **/
 defined('_JEXEC') or die;
 
@@ -61,7 +61,7 @@ $colspan = !empty($this->actions) ? 4 : 3;
 					<i class="icon-arrow-down hasTooltip"></i>
 				</a>
 			</td>
-			<td class="span<?php echo $cols ?>">
+			<td class="span<?php echo $cols ?>" id="recent-list">
 				<?php echo JText::_('COM_KUNENA_GEN_SUBJECT'); ?>
 			</td>
 			<td class="span2 hidden-phone">

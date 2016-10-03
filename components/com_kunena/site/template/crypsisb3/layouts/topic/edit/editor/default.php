@@ -5,9 +5,9 @@
  * @package     Kunena.Template.Crypsis
  * @subpackage  Topic
  *
- * @copyright   (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright   (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link        http://www.kunena.org
+ * @link        https://www.kunena.org
  **/
 defined('_JEXEC') or die ();
 
@@ -38,8 +38,8 @@ $this->getBBcodesEnabled();
 				<h3 id="myModalLabel"><?php echo JText::_('COM_KUNENA_EDITOR_MODAL_TITLE_MAP_SETTINGS') ?></h3>
 			</div>
 			<div class="modal-body">
-				<p><?php echo JText::_('COM_KUNENA_EDITOR_MODAL_MAP_SETTINGS_TYPE') ?>: <select id="modal-map-type" class="form-control"><option type="HYBRID"><?php echo JText::_('COM_KUNENA_EDITOR_MODAL_MAP_SETTINGS_HYBRID') ?></option><option type="ROADMAP"><?php echo JText::_('COM_KUNENA_EDITOR_MODAL_MAP_SETTINGS_ROADMAP') ?></option><option type="TERRAIN"><?php echo JText::_('COM_KUNENA_EDITOR_MODAL_MAP_SETTINGS_TERRAIN') ?></option><option type="SATELLITE"><?php echo JText::_('COM_KUNENA_EDITOR_MODAL_MAP_SETTINGS_SATELLITE') ?></option></select><br />
-				<?php echo JText::_('COM_KUNENA_EDITOR_MODAL_MAP_SETTINGS_ZOOM_LEVEL') ?>: <select id="modal-map-zoomlevel" class="form-control"><option type="2">2</option><option type="4">4</option><option type="6">6</option><option type="8">8</option><option type="10">10</option><option type="12">12</option><option type="14">14</option><option type="16">16</option><option type="18">18</option></select><br />
+				<p><?php echo JText::_('COM_KUNENA_EDITOR_MODAL_MAP_SETTINGS_TYPE') ?>: <select id="modal-map-type" class="form-control"><option value="hybrid"><?php echo JText::_('COM_KUNENA_EDITOR_MODAL_MAP_SETTINGS_HYBRID') ?></option><option value="roadmap"><?php echo JText::_('COM_KUNENA_EDITOR_MODAL_MAP_SETTINGS_ROADMAP') ?></option><option value="terrain"><?php echo JText::_('COM_KUNENA_EDITOR_MODAL_MAP_SETTINGS_TERRAIN') ?></option><option value="satellite"><?php echo JText::_('COM_KUNENA_EDITOR_MODAL_MAP_SETTINGS_SATELLITE') ?></option></select><br />
+				<?php echo JText::_('COM_KUNENA_EDITOR_MODAL_MAP_SETTINGS_ZOOM_LEVEL') ?>: <select id="modal-map-zoomlevel" class="form-control"><option value="2">2</option><option value="4">4</option><option value="6">6</option><option value="8">8</option><option value="10">10</option><option value="12">12</option><option value="14">14</option><option value="16">16</option><option values="18">18</option></select><br />
 				<?php echo JText::_('COM_KUNENA_EDITOR_MODAL_MAP_SETTINGS_CITY') ?>: <input name="modal-map-city" id="modal-map-city" type="text" value="" class="form-control" /></p>
 			</div>
 			<div class="modal-footer">
@@ -126,7 +126,7 @@ $this->getBBcodesEnabled();
 						$vid_provider = array ('', 'Bofunk', 'Break', 'Clipfish', 'DivX,divx]http://', 'Flash,flash]http://', 'FlashVars,flashvars param=]http://', 'MediaPlayer,mediaplayer]http://', 'Metacafe', 'MySpace', 'QuickTime,quicktime]http://', 'RealPlayer,realplayer]http://', 'RuTube', 'Sapo', 'Streetfire', 'Veoh', 'Videojug', 'Vimeo', 'Wideo.fr', 'YouTube' );
 							foreach ( $vid_provider as $vid_type ) {
 								$vid_type = explode ( ',', $vid_type );
-									echo '<option value = "' . (! empty ( $vid_type [1] ) ? $this->escape($vid_type [1]) : JString::strtolower ( $this->escape($vid_type [0]) ) . '') . '">' . $this->escape($vid_type [0]) . '</option>';
+									echo '<option value = "' . (! empty ( $vid_type [1] ) ? $this->escape($vid_type [1]) : Joomla\String\String::strtolower ( $this->escape($vid_type [0]) ) . '') . '">' . $this->escape($vid_type [0]) . '</option>';
 							}
 						?>
 				</select>
@@ -165,36 +165,38 @@ $this->getBBcodesEnabled();
 				<h3 id="myModalLabel"><?php echo JText::_('COM_KUNENA_EDITOR_MODAL_TITLE_POLL_SETTINGS') ?></h3>
 			</div>
 			<div class="modal-body">
-					<div id="kbbcode-poll-options">
-						<?php JHtml::_('behavior.calendar'); ?>
-						<label class="kpoll-title-lbl" for="kpoll-title"><?php echo JText::_('COM_KUNENA_POLL_TITLE'); ?></label>
-						<input type="text" class="inputbox form-control" name="poll_title" id="kpoll-title"
-								maxlength="100" size="40"
-								value="<?php echo $this->escape( $this->poll->title ) ?>"
+				<div id="kbbcode-poll-options">
+					<?php JHtml::_('behavior.calendar'); ?>
+					<label class="kpoll-title-lbl" for="kpoll-title"><?php echo JText::_('COM_KUNENA_POLL_TITLE'); ?></label>
+					<input type="text" class="inputbox form-control" name="poll_title" id="kpoll-title"
+						maxlength="100" size="40"
+						value="<?php echo $this->escape( $this->poll->title ) ?>"
 						/>
-						<i id="kbutton-poll-add" class="icon-plus btn btn-small"
-							alt="<?php echo JText::_('COM_KUNENA_POLL_ADD_POLL_OPTION'); ?>"> </i>
-						<i id="kbutton-poll-rem" class="icon-minus btn btn-small"
-							alt="<?php echo JText::_('COM_KUNENA_POLL_REMOVE_POLL_OPTION'); ?>"> </i>
-						<label class="kpoll-term-lbl form-control" for="kpoll-time-to-live"><?php echo JText::_('COM_KUNENA_POLL_TIME_TO_LIVE'); ?></label>
-						<?php echo JHtml::_('calendar', isset($this->poll->polltimetolive) ? $this->escape($this->poll->polltimetolive) : '0000-00-00', 'poll_time_to_live', 'kpoll-time-to-live', '%Y-%m-%d'); ?>
-						<div id="kpoll-alert-error" class="alert" style="display:none;">
-							<button type="button" class="close" data-dismiss="alert">&times;</button>
-							<?php echo JText::sprintf('COM_KUNENA_ALERT_WARNING_X', JText::_('COM_KUNENA_POLL_NUMBER_OPTIONS_MAX_NOW')) ?>
-						</div>
-							<?php
-							if($this->poll->exists()) {
-								$x = 1;
-								foreach ($this->poll->getOptions() as $poll_option) {
-									echo '<div class="polloption">Option '.$x.' <input class="form-control" type="text" size="100" id="field_option'.$x.'" name="polloptionsID['.$poll_option->id.']" value="'.$poll_option->text.'" /></div>';
-									$x++;
-								}
-							}
-						?>
-						<input type="hidden" name="nb_options_allowed" id="nb_options_allowed" value="<?php echo $this->config->pollnboptions; ?>" />
-						<input type="hidden" name="number_total_options" id="numbertotal"
-							value="<?php echo !empty ($this->polloptionstotal) ? $this->escape($this->polloptionstotal) : '' ?>" />
+					<i id="kbutton-poll-add" class="glyphicon glyphicon-plus btn btn-xs btn-default"
+						alt="<?php echo JText::_('COM_KUNENA_POLL_ADD_POLL_OPTION'); ?>"> </i>
+					<i id="kbutton-poll-rem" class="glyphicon glyphicon-minus btn btn-xs btn-default"
+						alt="<?php echo JText::_('COM_KUNENA_POLL_REMOVE_POLL_OPTION'); ?>"> </i>
+					<br>
+					<label class="kpoll-term-lbl" for="kpoll-time-to-live"><?php echo JText::_('COM_KUNENA_POLL_TIME_TO_LIVE'); ?></label>
+					<?php echo JHtml::_('calendar', isset($this->poll->polltimetolive) ? $this->escape($this->poll->polltimetolive) : '0000-00-00', 'poll_time_to_live', 'kpoll-time-to-live', '%Y-%m-%d', 'class="form-control"'); ?>
+					<br>
+					<div id="kpoll-alert-error" class="alert alert-notice" style="display:none;">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<?php echo JText::sprintf('COM_KUNENA_ALERT_WARNING_X', JText::_('COM_KUNENA_POLL_NUMBER_OPTIONS_MAX_NOW')) ?>
 					</div>
+					<?php
+					if($this->poll->exists()) {
+						$x = 1;
+						foreach ($this->poll->getOptions() as $poll_option) {
+							echo '<div class="polloption">Option '.$x.' <input type="text" class="form-control" size="100" id="field_option'.$x.' '.'" name="polloptionsID['.$poll_option->id.']" value="'.$poll_option->text.'")" /></div>';
+							$x++;
+						}
+					}
+					?>
+					<input type="hidden" name="nb_options_allowed" id="nb_options_allowed" value="<?php echo $this->config->pollnboptions; ?>" />
+					<input type="hidden" name="number_total_options" id="numbertotal"
+						value="<?php echo !empty ($this->polloptionstotal) ? $this->escape($this->polloptionstotal) : '' ?>" />
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button id="poll-settings-modal-submit" class="btn btn-primary"><?php echo JText::_('COM_KUNENA_EDITOR_MODAL_ADD_LABEL') ?></button>
@@ -212,13 +214,13 @@ $this->getBBcodesEnabled();
 				<h3 id="myModalLabel">Emoticons</h3>
 			</div>
 			<div class="modal-body">
-				<p><div id="smilie"><?php
+				<div id="smilie"><?php
 					$emoticons = KunenaHtmlParser::getEmoticons(0, 1);
 					foreach ( $emoticons as $emo_code=>$emo_url ) {
 						echo '<img class="smileyimage" src="' . $emo_url . '" border="0" alt="' . $emo_code . ' " title="' . $emo_code . ' " style="cursor:pointer"/> ';
 					}
 					?>
-					</div></p>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-default" data-dismiss="modal" aria-hidden="true"><?php echo JText::_('COM_KUNENA_EDITOR_MODAL_CLOSE_LABEL') ?></button>

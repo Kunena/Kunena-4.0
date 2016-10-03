@@ -4,9 +4,9 @@
  * @package     Kunena.Site
  * @subpackage  Controller.Message
  *
- * @copyright   (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright   (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link        http://www.kunena.org
+ * @link        https://www.kunena.org
  **/
 defined('_JEXEC') or die;
 
@@ -101,8 +101,8 @@ class ComponentKunenaControllerMessageItemActionsDisplay extends KunenaControlle
 		}
 
 		$login = KunenaLogin::getInstance();
-		if (!$this->message->isAuthorised('reply') && !$this->message_closed && $login->enabled() || !$this->message->isAuthorised('reply') && !$this->topic->locked && $login->enabled() && !$me->userid) {
-			$logintext =  '<a class="btn-link" href="#klogin"> ' . JText::_('JLOGIN'). '</a>';
+		if (!$this->message->isAuthorised('reply') && !$this->message_closed && $login->enabled() && !$this->message->hold || !$this->message->isAuthorised('reply') && !$this->topic->locked && $login->enabled() && !$me->userid && !$this->message->hold) {
+			$logintext =  '<a class="btn-link" href="#klogin" rel="nofollow"> ' . JText::_('JLOGIN'). '</a>';
 			if ($login->getRegistrationUrl()) {
 				$register =  ' ' . JText::_('COM_KUNENA_LOGIN_OR') .' <a class="btn-link" href="' . $login->getRegistrationUrl() . '">'. JText::_('COM_KUNENA_PROFILEBOX_CREATE_ACCOUNT') . '</a>';
 			}

@@ -7,7 +7,7 @@
  *
  * @copyright (C) 2008 - 2014 Kunena Team. All rights reserved.
  * @license       http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link          http://www.kunena.org
+ * @link          https://www.kunena.org
  **/
 defined('_JEXEC') or die ();
 
@@ -893,7 +893,12 @@ class KunenaControllerTopic extends KunenaController
 
 		if ( !$ignore )
 		{
-			preg_match_all("/<a\s[^>]*href=\"([^\"]*)\"[^>]*>(.*)<\/a>/siU", $text, $matches);
+			preg_match_all('@\(((https?://)?([-\\w]+\\.[-\\w\\.]+)+\\w(:\\d+)?(/([-\\w/_\\.]*(\\?\\S+)?)?)*)\)@', $text, $matches);
+
+			if( empty($matches[0]) )
+			{
+				preg_match_all("/<a\s[^>]*href=\"([^\"]*)\"[^>]*>(.*)<\/a>/siU", $text, $matches);
+			}
 
 			$countlink = count($matches[0]);
 

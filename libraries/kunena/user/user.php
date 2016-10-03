@@ -4,9 +4,9 @@
  * @package     Kunena.Framework
  * @subpackage  User
  *
- * @copyright   (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright   (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link        http://www.kunena.org
+ * @link        https://www.kunena.org
  **/
 defined ('_JEXEC') or die ();
 
@@ -588,6 +588,13 @@ class KunenaUser extends JObject
 		if (!$this->userid || !$this->registerDate)
 		{
 			return;
+		}
+
+		$config = KunenaConfig::getInstance();
+		$me = KunenaUserHelper::getMyself();
+		if (!$config->pubprofile && !$me->exists())
+		{
+			return false;
 		}
 
 		return KunenaFactory::getProfile ()->getProfileURL ( $this->userid, $task, $xhtml );

@@ -5,9 +5,9 @@
  * @package         Kunena.Template.Crypsis
  * @subpackage      Topic
  *
- * @copyright   (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright   (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license         http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link            http://www.kunena.org
+ * @link            https://www.kunena.org
  **/
 defined('_JEXEC') or die ();
 
@@ -62,7 +62,18 @@ if ($this->config->pollenabled)
 $this->addScript('js/caret.js');
 $this->addScript('js/atwho.js');
 $this->addStyleSheet('css/atwho.css');
-$this->addScript('js/edit.js');
+
+$this->ktemplate = KunenaFactory::getTemplate();
+$topicicontype = $this->ktemplate->params->get('topicicontype');
+if ($topicicontype == 'B2'){
+	$this->addScript('js/editb2.js');
+}
+elseif ($topicicontype == 'fa') {
+	$this->addScript('js/editfa.js');
+}
+else {
+	$this->addScript('js/edit.js');
+}
 
 if (KunenaFactory::getTemplate()->params->get('formRecover'))
 {
@@ -149,21 +160,27 @@ if (KunenaFactory::getTemplate()->params->get('formRecover'))
 							<label class="control-label"><?php echo JText::_('COM_KUNENA_GEN_SUBJECT'); ?></label>
 
 							<div class="controls">
-								<input class="span12" type="text" placeholder="<?php echo JText::_('COM_KUNENA_TOPIC_EDIT_PLACEHOLDER_SUBJECT') ?>" name="subject" id="subject" maxlength="<?php echo $this->escape($this->config->maxsubject); ?>" tabindex="6" value="<?php echo $this->escape($this->message->subject); ?>" required />
+								<input class="span12" type="text" placeholder="<?php echo JText::_('COM_KUNENA_TOPIC_EDIT_PLACEHOLDER_SUBJECT') ?>" name="subject" id="subject" maxlength="<?php echo $this->escape($this->config->maxsubject); ?>" tabindex="6" <?php if (!$this->config->allow_change_subject && $this->message->parent): ?>disabled<?php endif; ?> value="<?php echo $this->escape($this->message->subject); ?>" required />
+								<?php if (!$this->config->allow_change_subject && $this->topic->exists()): ?>
+									<input type="hidden" name="subject" value="<?php echo $this->escape($this->message->subject); ?>" />
+								<?php endif; ?>
 							</div>
 						</div>
 						<?php if (!empty($this->topicIcons)) : ?>
 							<div class="control-group">
 								<label class="control-label"><?php echo JText::_('COM_KUNENA_GEN_TOPIC_ICON'); ?></label>
-
 								<div id="iconset_inject" class="controls controls-select">
 									<div id="iconset_topic_list">
 										<?php foreach ($this->topicIcons as $id => $icon): ?>
-											<span class="kiconsel">
-											<input type="radio" id="radio<?php echo $icon->id ?>" name="topic_emoticon" value="<?php echo $icon->id ?>" <?php echo !empty($icon->checked) ? ' checked="checked" ' : '' ?> />
-											<label class="radio inline" for="radio<?php echo $icon->id ?>"><img src="<?php echo $icon->relpath; ?>" alt="" border="0" />
+										<input type="radio" id="radio<?php echo $icon->id ?>" name="topic_emoticon" value="<?php echo $icon->id ?>" <?php echo !empty($icon->checked) ? ' checked="checked" ' : '' ?> />
+										<?php if ($this->config->topicicons && $topicicontype == 'B2') : ?>
+											<label class="radio inline" for="radio<?php echo $icon->id; ?>"><span class="icon icon-<?php echo $icon->b2; ?> icon-topic" aria-hidden="true"></span>
+										<?php elseif ($this->config->topicicons && $topicicontype == 'fa') : ?>
+											<label class="radio inline" for="radio<?php echo $icon->id; ?>"><i class="fa fa-<?php echo $icon->fa; ?> glyphicon-topic fa-2x"></i>
+										<?php else : ?>
+											<label class="radio inline" for="radio<?php echo $icon->id; ?>"><img src="<?php echo $icon->relpath; ?>" alt="" border="0" />
+										<?php endif; ?>
 											</label>
-										</span>
 										<?php endforeach; ?>
 									</div>
 								</div>
@@ -243,9 +260,7 @@ if (KunenaFactory::getTemplate()->params->get('formRecover'))
 						<?php endif; ?>
 						<?php if (!empty($this->captchaEnabled)) : ?>
 							<div class="control-group">
-								<label class="control-label"><?php echo JText::_('COM_KUNENA_CAPDESC'); ?></label>
-
-								<div class="controls"> <div id="dynamic_recaptcha_1"> </div> </div>
+								<?php echo $this->captchaDisplay;?>
 							</div>
 						<?php endif; ?>
 

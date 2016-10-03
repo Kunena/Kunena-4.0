@@ -4,9 +4,9 @@
  * @package Kunena.Framework
  * @subpackage Forum.Message.Attachment
  *
- * @copyright (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link http://www.kunena.org
+ * @link https://www.kunena.org
  **/
 defined ( '_JEXEC' ) or die ();
 
@@ -427,7 +427,7 @@ class KunenaAttachment extends KunenaDatabaseObject
 		jimport( 'joomla.filesystem.folder' );
 		$config = KunenaFactory::getConfig();
 		$input = JFactory::getApplication()->input;
-		$fileInput = $input->files->get($key);
+		$fileInput = $input->files->get($key, null, 'raw');
 
 		$upload = KunenaUpload::getInstance(KunenaAttachmentHelper::getExtensions($catid, $this->userid));
 

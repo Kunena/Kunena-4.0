@@ -4,21 +4,21 @@
  * @package     Kunena.Template.Crypsis
  * @subpackage  Layout.User
  *
- * @copyright   (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright   (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link        http://www.kunena.org
+ * @link        https://www.kunena.org
  **/
 defined('_JEXEC') or die;
 
-/** @var KunenaUser $profile */
+// @var KunenaUser $profile
+
 $profile = $this->profile;
 $me = KunenaUserHelper::getMyself();
 $avatar = $profile->getAvatarImage('img-polaroid', 'post');
 $banInfo = $this->config->showbannedreason
 	? KunenaUserBan::getInstanceByUserid($profile->userid)
 	: null;
-$private = $profile->getPrivateMsgURL();
-$privateLabel = $profile->getPrivateMsgLabel();
+$private = KunenaFactory::getPrivateMessaging();
 $websiteURL = $profile->getWebsiteURL();
 $websiteName = $profile->getWebsiteName();
 $personalText = $profile->getPersonalText();
@@ -63,8 +63,10 @@ if ($this->config->showuserstats)
 								<li>
 									<strong> <?php echo JText::_('COM_KUNENA_MYPROFILE_RANK'); ?>:</strong>
 									<span>
-										<?php echo $this->escape($rankTitle); ?>
-										<?php echo $rankImage; ?>
+										<?php /** @var TYPE_NAME $rankTitle */
+										echo $this->escape($rankTitle); ?>
+										<?php /** @var TYPE_NAME $rankImage */
+										echo $rankImage; ?>
 									</span>
 								</li>
 							<?php endif; ?>
@@ -95,19 +97,19 @@ if ($this->config->showuserstats)
 							<?php if (!empty($profile->posts)) : ?>
 							<li>
 								<strong> <?php echo JText::_('COM_KUNENA_POSTS'); ?> </strong>
-								<span> <?php echo JText::sprintf((int)$profile->posts); ?> </span>
+								<span> <?php echo JText::sprintf((int) $profile->posts); ?> </span>
 							</li>
 							<?php endif; ?>
 							<?php if (!empty($profile->uhits)) : ?>
 							<li>
 								<strong> <?php echo JText::_('COM_KUNENA_PROFILE_VIEWS'); ?>:</strong>
-								<span> <?php echo JText::sprintf((int)$profile->uhits); ?> </span>
+								<span> <?php echo JText::sprintf((int) $profile->uhits); ?> </span>
 							</li>
 							<?php endif; ?>
 							<?php if (!empty($profile->thankyou)) : ?>
 							<li>
 								<strong> <?php echo JText::_('COM_KUNENA_THANK_YOU_RECEIVED'); ?>:</strong>
-								<span> <?php echo JText::sprintf((int)$profile->thankyou); ?> </span>
+								<span> <?php echo JText::sprintf((int) $profile->thankyou); ?> </span>
 							</li>
 							<?php endif; ?>
 							<?php if (!empty($points)) : ?>
@@ -156,20 +158,17 @@ if ($this->config->showuserstats)
 							<?php echo $this->subLayout('User/Item/Social')->set('profile', $profile); ?>
 						</div>
 						<div class="span3 pull-right">
-							<?php if (!empty($private)) : ?>
-								<a class="btn btn-small" href="<?php echo $private; ?>">
-									<i class="icon-comments-2"></i>
-									<?php echo $privateLabel ?>
-								</a>
+							<?php if ($private) : ?>
+								<?php echo $private->shownewIcon($profile->userid); ?>
 							<?php endif; ?>
 							<?php if ($email) : ?>
 								<a class="btn btn-small" href="mailto:<?php echo $profile->email; ?>"><i class="icon-mail"></i></a>
 							<?php endif; ?>
-							<?php if (!empty($websiteName) && $websiteURL!='http://') : ?>
+							<?php if (!empty($websiteName) && $websiteURL != 'http://') : ?>
 								<a class="btn btn-small" href="<?php echo $websiteURL ?>"><i class="icon-bookmark"></i> <?php echo $websiteName ?></a>
-							<?php elseif(empty($websiteName) && $websiteURL!='http://'): ?>
+							<?php elseif(empty($websiteName) && $websiteURL != 'http://') : ?>
 								<a class="btn btn-small" href="<?php echo $websiteURL ?>"><i class="icon-bookmark"></i> <?php echo $websiteURL ?></a>
-							<?php elseif(!empty($websiteName) && $websiteURL=='http://'): ?>
+							<?php elseif(!empty($websiteName) && $websiteURL == 'http://') : ?>
 								<button class="btn btn-small"><i class="icon-bookmark"></i> <?php echo $websiteName ?></button>
 							<?php endif; ?>
 						</div>

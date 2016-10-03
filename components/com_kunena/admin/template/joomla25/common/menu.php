@@ -4,9 +4,9 @@
  * @package Kunena.Administrator.Template
  * @subpackage Common
  *
- * @copyright (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link http://www.kunena.org
+ * @link https://www.kunena.org
  **/
 defined ( '_JEXEC' ) or die ();
 
@@ -17,6 +17,8 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 
 $view = JRequest::getCmd('view', 'cpanel');
+echo JFactory::getApplication()->enqueueMessage(JText::_('This version of Kunena and Joomla is no longer supported. Please upgrade to a supported version. <br/> <br/>This template (' . KunenaFactory::getTemplate()->name . ') is no longer supported. Please upgrade to a supported version.<br/> Please backup before updating.'), 'error' );
+
 ?>
 
 <!-- Main navigation -->
@@ -49,6 +51,6 @@ $view = JRequest::getCmd('view', 'cpanel');
 	<a class="kadmin-mainmenu icon-stats-sm" href="<?php echo KunenaRoute::_('administrator/index.php?option=com_kunena&view=stats') ?>"><?php echo JText::_('COM_KUNENA_STATS_GEN_STATS'); ?></a>
 	<a class="kadmin-mainmenu icon-systemreport-sm" href="<?php echo KunenaRoute::_('administrator/index.php?option=com_kunena&view=report') ?>"><?php echo JText::_('COM_KUNENA_REPORT_SYSTEM'); ?></a>
 	<a class="kadmin-mainmenu icon-pluginsmanager-sm" href="<?php echo JRoute::_('index.php?option=com_plugins&view=plugins&filter_folder=kunena') ?>"><?php echo JText::_('COM_KUNENA_PLUGIN_MANAGER'); ?></a>
-	<a class="kadmin-mainmenu icon-support-sm" href="http://www.kunena.org" target="_blank"><?php echo JText::_('COM_KUNENA_C_SUPPORT'); ?></a>
+	<a class="kadmin-mainmenu icon-support-sm" href="https://www.kunena.org" target="_blank"><?php echo JText::_('COM_KUNENA_C_SUPPORT'); ?></a>
 </div>
  */?>

@@ -4,9 +4,9 @@
  * @package Kunena.Framework
  * @subpackage Forum.Message
  *
- * @copyright (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link http://www.kunena.org
+ * @link https://www.kunena.org
  **/
 defined ( '_JEXEC' ) or die ();
 
@@ -259,9 +259,10 @@ class KunenaForumMessage extends KunenaDatabaseObject
 		if ($fields === true)
 		{
 			$user = KunenaFactory::getUser($this->userid);
-			$text = preg_replace('/\[confidential\](.*?)\[\/confidential\]/su', '', $this->message );
-			$text = preg_replace('/\[hide\](.*?)\[\/hide\]/su', '', $this->message );
-			$message->message = "[quote=\"{$user->getName($this->name)}\" post={$this->id}]" .  $text . "[/quote]";
+			$find = array('/\[hide\](.*?)\[\/hide\]/su', '/\[confidential\](.*?)\[\/confidential\]/su');
+			$replace = '';
+			$text = preg_replace($find, $replace, $this->message);
+			$message->message = "[quote=\"{$user->getName($this->name)}\" post={$this->id}]" . $text . "[/quote]";
 		}
 		else
 		{
@@ -541,11 +542,15 @@ class KunenaForumMessage extends KunenaDatabaseObject
 	}
 
 	/**
+	 * Display required field from message table
+	 *
 	 * @param string $field
+	 * @param boolean $html
+	 * @param string $context
 	 *
 	 * @return int|string
 	 */
-	public function displayField($field, $html = true)
+	public function displayField($field, $html = true, $context = '')
 	{
 		switch ($field)
 		{
@@ -555,7 +560,7 @@ class KunenaForumMessage extends KunenaDatabaseObject
 				return KunenaHtmlParser::parseText($this->subject);
 			case 'message':
 				// FIXME: add context to BBCode parser (and fix logic in the parser)
-				return $html ? KunenaHtmlParser::parseBBCode($this->message, $this) : KunenaHtmlParser::stripBBCode
+				return $html ? KunenaHtmlParser::parseBBCode($this->message, $this, 0, $context) : KunenaHtmlParser::stripBBCode
 					($this->message, $this->parent, $html);
 		}
 
@@ -1460,7 +1465,8 @@ class KunenaForumMessage extends KunenaDatabaseObject
 
 		if (KunenaFactory::getConfig()->image_upload=='moderator')
 		{
-			if (!$user->isModerator())
+			$category = $this->getCategory();
+			if (!$user->isModerator($category))
 			{
 				return new KunenaExceptionAuthorise(JText::_('COM_KUNENA_POST_ATTACHMENTS_IMAGE_ONLY_FOR_MODERATORS'), 403);
 			}
@@ -1500,7 +1506,8 @@ class KunenaForumMessage extends KunenaDatabaseObject
 
 		if (KunenaFactory::getConfig()->file_upload=='moderator' )
 		{
-			if (!$user->isModerator())
+			$category = $this->getCategory();
+			if (!$user->isModerator($category))
 			{
 				return new KunenaExceptionAuthorise(JText::_('COM_KUNENA_POST_ATTACHMENTS_FILE_ONLY_FOR_MODERATORS'), 403);
 			}

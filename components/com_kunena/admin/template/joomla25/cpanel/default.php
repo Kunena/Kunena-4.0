@@ -4,9 +4,9 @@
  * @package Kunena.Administrator.Template
  * @subpackage CPanel
  *
- * @copyright (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link http://www.kunena.org
+ * @link https://www.kunena.org
  **/
 defined ( '_JEXEC' ) or die ();
 
@@ -85,11 +85,21 @@ defined ( '_JEXEC' ) or die ();
 									<dt><?php echo JText::_('COM_KUNENA_CPANEL_LABEL_DATE') ?>:</dt>
 									<dd><?php echo KunenaForum::versionDate(); ?></dd>
 									<dt><?php echo JText::_('COM_KUNENA_CPANEL_LABEL_AUTHOR') ?>:</dt>
-									<dd><a href="http://www.kunena.org/team" target="_blank">Kunena Team</a></dd>
+									<dd><a href="https://www.kunena.org/team" target="_blank">Kunena Team</a></dd>
 									<dt><?php echo JText::_('COM_KUNENA_CPANEL_LABEL_COPYRIGHT') ?>:</dt>
-									<dd>&copy; 2008 - 2015 Kunena, All rights reserved.</dd>
+									<dd>&copy; 2008 - 2016 Kunena, All rights reserved.</dd>
 									<dt><?php echo JText::_('COM_KUNENA_CPANEL_LABEL_LABEL_LICENSE') ?>:</dt>
 									<dd>GNU General Public License</dd>
+									<hr class="hr-condensed">
+									<dt><?php echo JText::_('Donate');?></dt>
+									<dd>
+										<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+											<input name="cmd" type="hidden" value="_s-xclick">
+											<input name="hosted_button_id" type="hidden" value="TPKVQFBQPFSLU">
+											<input name="submit" type="image" alt="PayPal - The safer, easier way to pay online!" src="https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif" border="0">
+											<img width="1" height="1" alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" border="0">
+										</form>
+									</dd>
 								</dl>
 							</div>
 						</div>

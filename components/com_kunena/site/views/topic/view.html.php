@@ -5,9 +5,9 @@
  * @package       Kunena.Site
  * @subpackage    Views
  *
- * @copyright (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license       http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link          http://www.kunena.org
+ * @link          https://www.kunena.org
  **/
 defined('_JEXEC') or die ();
 
@@ -260,7 +260,7 @@ class KunenaViewTopic extends KunenaView
 		if ($this->config->pickup_category)
 		{
 			$options[] = JHtml::_('select.option', '', JText::_('COM_KUNENA_SELECT_CATEGORY'), 'value', 'text');
-			$selected  = 0;
+			$selected  = '';
 		}
 
 		if ($saved)
@@ -432,7 +432,7 @@ class KunenaViewTopic extends KunenaView
 		$this->category = $this->get('Category');
 		$this->topic    = $this->get('Topic');
 
-		if (!$this->topic->authorise('poll.vote'))
+		if (!$this->topic->authorise('poll.vote') && !$this->topic->authorise('reply') )
 		{
 			$this->setError($this->topic->getError());
 		}
@@ -639,13 +639,13 @@ class KunenaViewTopic extends KunenaView
 			}
 		}
 
-		if ($this->voted || !$this->topic->authorise('poll.vote', null, true))
+		if (!$this->voted && $this->topic->isAuthorised('poll.vote') && $this->topic->isAuthorised('reply'))
 		{
-			echo $this->loadTemplateFile("pollresults");
+			echo $this->loadTemplateFile("poll");
 		}
 		else
 		{
-			echo $this->loadTemplateFile("poll");
+			echo $this->loadTemplateFile("pollresults");
 		}
 	}
 
@@ -678,7 +678,7 @@ class KunenaViewTopic extends KunenaView
 			}
 
 			$javascript = "document.id('helpbox').set('value', '" . JText::_('COM_KUNENA_EDITOR_HELPLINE_CODETYPE', true) . "')";
-			$list       = JHTML::_('select.genericlist', $options, 'kcodetype"', 'class="kbutton form-control" onmouseover="' . $javascript . '"', 'value', 'text', '-1');
+			$list       = JHTML::_('select.genericlist', $options, 'kcodetype', 'class="kbutton form-control" onmouseover="' . $javascript . '"', 'value', 'text', '-1');
 
 			return $list;
 		}
@@ -1342,56 +1342,167 @@ class KunenaViewTopic extends KunenaView
 
 	protected function _prepareDocument($type)
 	{
-		if ($type == 'default')
+		$app = JFactory::getApplication();
+		$menu_item   = $app->getMenu()->getActive(); // get the active item
+
+		if ($menu_item)
 		{
-			$this->headerText = JText::_('COM_KUNENA_MENU_LATEST_DESC');
-			$this->title      = JText::_('COM_KUNENA_ALL_DISCUSSIONS');
+			$params             = $menu_item->params; // get the params
+			$params_title       = $params->get('page_title');
+			$params_keywords    = $params->get('menu-meta_keywords');
+			$params_description = $params->get('menu-meta_description');
 
-			$page  = intval($this->state->get('list.start') / $this->state->get('list.limit')) + 1;
-			$pages = intval(($this->total - 1) / $this->state->get('list.limit')) + 1;
-
-			$title = JText::sprintf($this->topic->subject) . " ({$page}/{$pages})";
-			$this->setTitle($title);
-
-			// TODO: use real keywords, too
-			$keywords = $this->escape("{$this->topic->subject}, {$this->category->name}, {$this->category->getParent()->name}, {$this->config->board_title}");
-			$this->setKeywords($keywords);
-
-			// Create Meta Description form the content of the first message
-			// better for search results display but NOT for search ranking!
-			$description = KunenaHtmlParser::stripBBCode($this->topic->first_post_message, 182);
-			$description = preg_replace('/\s+/', ' ', $description); // remove newlines
-			$description = trim($description); // Remove trailing spaces and beginning
-			if ($page)
+			if ($type == 'default')
 			{
-				$description .= " ({$page}/{$pages})";  //avoid the "duplicate meta description" error in google webmaster tools
+				$this->headerText = JText::_('COM_KUNENA_MENU_LATEST_DESC');
+				$this->title      = JText::_('COM_KUNENA_ALL_DISCUSSIONS');
+
+				$page  = intval($this->state->get('list.start') / $this->state->get('list.limit')) + 1;
+				$pages = intval(($this->total - 1) / $this->state->get('list.limit')) + 1;
+
+				if (!empty($params_title))
+				{
+					$title = $params->get('page_title');
+					$this->setTitle($title);
+				}
+				else
+				{
+					$title = JText::sprintf($this->topic->subject) . " ({$page}/{$pages})";
+					$this->setTitle($title);
+				}
+
+				if (!empty($params_keywords))
+				{
+					$keywords = $params->get('menu-meta_keywords');
+					$this->setKeywords($keywords);
+				}
+				else
+				{
+					$keywords = $this->escape("{$this->topic->subject}, {$this->category->name}, {$this->category->getParent()->name}, {$this->config->board_title}");
+					$this->setKeywords($keywords);
+				}
+
+				if (!empty($params_description))
+				{
+					$description = $params->get('menu-meta_description');
+					$this->setDescription($description);
+				}
+				else
+				{
+					// Create Meta Description form the content of the first message
+					// better for search results display but NOT for search ranking!
+					$description = KunenaHtmlParser::stripBBCode($this->topic->first_post_message, 182);
+					$description = preg_replace('/\s+/', ' ', $description); // remove newlines
+					$description = trim($description); // Remove trailing spaces and beginning
+					if ($page)
+					{
+						$description .= " ({$page}/{$pages})";  //avoid the "duplicate meta description" error in google webmaster tools
+					}
+					$this->setDescription($description);
+				}
 			}
-			$this->setDescription($description);
+			elseif ($type == 'create')
+			{
+				if (!empty($params_title))
+				{
+					$title = $params->get('page_title');
+					$this->setTitle($title);
+				}
+				else
+				{
+					$this->title = JText::_('COM_KUNENA_POST_NEW_TOPIC');
+					$this->setTitle($this->title);
+				}
 
-		}
-		elseif ($type == 'create')
-		{
+				if (!empty($params_keywords))
+				{
+					$keywords = $params->get('menu-meta_keywords');
+					$this->setKeywords($keywords);
+				}
+				else
+				{
+					$keywords = JText::_('COM_KUNENA_POST_NEW_TOPIC');
+					$this->setKeywords($keywords);
+				}
 
-			$this->title = JText::_('COM_KUNENA_POST_NEW_TOPIC');
-			$this->setTitle($this->title);
-			// TODO: set keywords and description
+				if (!empty($params_description))
+				{
+					$description = $params->get('menu-meta_description');
+					$this->setDescription($description);
+				}
+				else
+				{
+					$this->setDescription(JText::_('COM_KUNENA_POST_NEW_TOPIC'));
+				}
+			}
+			elseif ($type == 'reply')
+			{
+				if (!empty($params_title))
+				{
+					$title = $params->get('page_title');
+					$this->setTitle($title);
+				}
+				else
+				{
+					$this->title = JText::_('COM_KUNENA_POST_REPLY_TOPIC') . ' ' . $this->topic->subject;
+					$this->setTitle($this->title);
+				}
 
-		}
-		elseif ($type == 'reply')
-		{
+				if (!empty($params_keywords))
+				{
+					$keywords = $params->get('menu-meta_keywords');
+					$this->setKeywords($keywords);
+				}
+				else
+				{
+					$keywords = JText::_('COM_KUNENA_POST_REPLY_TOPIC');
+					$this->setKeywords($keywords);
+				}
 
-			$this->title = JText::_('COM_KUNENA_POST_REPLY_TOPIC') . ' ' . $this->topic->subject;
-			$this->setTitle($this->title);
-			// TODO: set keywords and description
+				if (!empty($params_description))
+				{
+					$description = $params->get('menu-meta_description');
+					$this->setDescription($description);
+				}
+				else
+				{
+					$this->setDescription(JText::_('COM_KUNENA_POST_REPLY_TOPIC'));
+				}
+			}
+			elseif ($type == 'edit')
+			{
+				if (!empty($params_title))
+				{
+					$title = $params->get('page_title');
+					$this->setTitle($title);
+				}
+				else
+				{
+					$this->title = JText::_('COM_KUNENA_POST_EDIT') . ' ' . $this->topic->subject;
+					$this->setTitle($this->title);
+				}
 
-		}
-		elseif ($type == 'edit')
-		{
+				if (!empty($params_keywords))
+				{
+					$keywords = $params->get('menu-meta_keywords');
+					$this->setKeywords($keywords);
+				}
+				else
+				{
+					$keywords = JText::_('COM_KUNENA_POST_EDIT');
+					$this->setKeywords($keywords);
+				}
 
-			$this->title = JText::_('COM_KUNENA_POST_EDIT') . ' ' . $this->topic->subject;
-			$this->setTitle($this->title);
-			// TODO: set keywords and description
-
+				if (!empty($params_description))
+				{
+					$description = $params->get('menu-meta_description');
+					$this->setDescription($description);
+				}
+				else
+				{
+					$this->setDescription(JText::_('COM_KUNENA_POST_EDIT'));
+				}
+			}
 		}
 	}
 

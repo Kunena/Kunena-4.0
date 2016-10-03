@@ -2,9 +2,9 @@
 * Kunena Component
 * @package Kunena.Template.Crypsis
 *
-* @copyright (C) 2008 - 2015 Kunena Team. All rights reserved.
+* @copyright (C) 2008 - 2016 Kunena Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-* @link http://www.kunena.org
+* @link https://www.kunena.org
 **/
 
 jQuery(document).ready(function() {
@@ -84,7 +84,7 @@ jQuery(document).ready(function() {
 		});
 	}
 
-	if ( typeof pollcategoriesid != 'undefined' ) {
+	if ( typeof pollcategoriesid != 'undefined' && jQuery('#poll_exist_edit').length == 0 ) {
 		var catid = jQuery('#kcategory_poll').val();
 
 		if ( pollcategoriesid[catid] !== undefined ) {
@@ -92,12 +92,10 @@ jQuery(document).ready(function() {
 		} else {
 			jQuery('.pollbutton').hide();
 		}
+	} else if ( jQuery('#poll_exist_edit').length > 0 ) {
+		jQuery('.pollbutton').show();
 	} else {
 		jQuery('.pollbutton').hide();
-	}
-	
-	if ( jQuery('#poll_exist_edit') != 'undefined' ) {
-		jQuery('.pollbutton').show();
 	}
 
 	jQuery('#kpoll_go_results').click(function() {
@@ -127,5 +125,9 @@ jQuery(document).ready(function() {
 			jQuery('#kpoll_hide_results').show();
 			jQuery('#kpoll_go_results').hide();
 		}
+	});
+
+	jQuery('#kpoll-moreusers').click(function() {
+		jQuery('#kpoll-moreusers-div').show();
 	});
 });

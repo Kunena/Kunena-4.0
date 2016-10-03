@@ -4,9 +4,9 @@
  * @package Kunena.Framework
  * @subpackage BBCode
  *
- * @copyright (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link http://www.kunena.org
+ * @link https://www.kunena.org
  **/
 defined ( '_JEXEC' ) or die ();
 
@@ -185,24 +185,10 @@ class KunenaBbcode extends NBBC_BBCode
 				if (isset($itemid))
 				{
 					// convert ebay item to embedded widget
-					$layout = KunenaLayout::factory('BBCode/eBay');
-
-					if ($layout->getPath())
-					{
-						$ebay = $this->defaults->getEbayItemFromCache($itemid);
-
-						return (string) $layout
-							->set('params', $params)
-							->set('naturalurl', $ebay->Item->ViewItemURLForNaturalSearch)
-							->set('pictureurl', $ebay->Item->PictureURL[0])
-							->set('status', $ebay->Item->ListingStatus)
-							->set('ack', $ebay->Ack)
-							->set('title', $ebay->Item->Title)
-							->setLayout('default');
-					}
+					return KunenaBbcodeLibrary::renderEbayLayout($itemid);
 				}
 
-				return $this->defaults->getEbayItemFromCache($itemid);
+				return;
 			}
 
 			parse_str($params['query'], $query);
@@ -211,19 +197,7 @@ class KunenaBbcode extends NBBC_BBCode
 			if (isset($path[1]) && $path[1] == 'sch' && !empty($query['_nkw']))
 			{
 				// convert ebay search to embedded widget
-				$layout = KunenaLayout::factory('BBCode/eBay');
-
-				if ($layout->getPath())
-				{
-					return (string) $layout
-						->set('content', urlencode($query['_nkw']))
-						->set('params', null)
-						->set('width', 355)
-						->set('height', 300)
-						->set('language', $config->ebaylanguagecode)
-						->set('affiliate', $config->ebay_affiliate_id)
-						->setLayout('search');
-				}
+				KunenaBbcodeLibrary::renderEbayLayout($itemid);
 
 				// TODO: Remove in Kunena 4.0
 				return '<object width="355" height="300"><param name="movie" value="http://togo.ebay.com/togo/togo.swf?2008013100" /><param name="flashvars" value="base=http://togo.ebay.com/togo/&lang=' . $config->ebay_language . '&mode=search&query='
@@ -279,7 +253,14 @@ class KunenaBbcode extends NBBC_BBCode
 			}
 
 			$url = htmlspecialchars($url, ENT_COMPAT, 'UTF-8');
-			return "<a class=\"bbcode_url\" href=\"{$url}\" target=\"_blank\" rel=\"nofollow\">{$text}</a>";
+			if (strpos($url, '/index.php') !== 0)
+			{
+				return "<a class=\"bbcode_url\" href=\"{$url}\" target=\"_blank\" rel=\"nofollow\">{$text}</a>";
+			}
+			else
+			{
+				return "<a class=\"bbcode_url\" href=\"{$url}\" target=\"_blank\">{$text}</a>";
+			}
 		}
 
 		// Auto-linking has been disabled.
@@ -933,7 +914,7 @@ class KunenaBbcodeLibrary extends BBCodeLibrary {
 		'ul' => array(
 			'mode' => BBCODE_MODE_LIBRARY,
 			'method' => 'DoList',
-			'default' => array( '_default' => 'circle' ),
+			'default' => array( '_default' => 'disc' ),
 			'class' => 'list',
 			'allow_in' => array('listitem', 'block', 'columns'),
 			'before_tag' => "sns",
@@ -1156,7 +1137,14 @@ class KunenaBbcodeLibrary extends BBCodeLibrary {
 		// TODO: Remove in Kunena 4.0
 		$target = ' target="' . htmlspecialchars($target, ENT_COMPAT, 'UTF-8') . '"';
 
-		return '<a href="' . htmlspecialchars($url, ENT_COMPAT, 'UTF-8') . '" class="bbcode_url" rel="nofollow"' . $target . '>' . $content . '</a>';
+		if (strpos($url, '/index.php') !== 0)
+		{
+			return '<a href="' . htmlspecialchars($url, ENT_COMPAT, 'UTF-8') . '" class="bbcode_url" rel="nofollow"' . $target . '>' . $content . '</a>';
+		}
+		else
+		{
+			return '<a href="' . htmlspecialchars($url, ENT_COMPAT, 'UTF-8') . '" class="bbcode_url"' . $target . '>' . $content . '</a>';
+		}
 	}
 
 	// Format a [size] tag by producing a <span> with a style with a different font-size.
@@ -1394,6 +1382,12 @@ class KunenaBbcodeLibrary extends BBCodeLibrary {
 			return '';
 		}
 
+		// Display nothing in subscription mails
+		if ( !empty($bbcode->context) )
+		{
+			return '';
+		}
+
 		$me = KunenaUserHelper::getMyself();
 		$message = $this->getMessage();
 		$moderator = $me->userid && $me->isModerator($message ? $message->getCategory() : null);
@@ -1557,22 +1551,7 @@ class KunenaBbcodeLibrary extends BBCodeLibrary {
 		$width = (int) $config->rtewidth;
 		$height = (int) $config->rteheight;
 
-		$layout = KunenaLayout::factory('BBCode/eBay');
-
-		if ($layout->getPath())
-		{
-			$ebay = $this->getEbayItemFromCache($content);
-
-			return (string) $layout
-				->set('content', $content)
-				->set('params', $params)
-				->set('naturalurl', $ebay->Item->ViewItemURLForNaturalSearch)
-				->set('pictureurl', $ebay->Item->PictureURL[0])
-				->set('status', $ebay->Item->ListingStatus)
-				->set('ack', $ebay->Ack)
-				->set('title', $ebay->Item->Title)
-				->setLayout(is_numeric($content) ? 'default' : 'search');
-		}
+		return SELF::renderEbayLayout($content);
 	}
 
 	function DoArticle($bbcode, $action, $name, $default, $params, $content)
@@ -1920,7 +1899,7 @@ class KunenaBbcodeLibrary extends BBCodeLibrary {
 
 			'metacafe' => array ('flash', 400, 345, 0, 0, 'http://www.metacafe.com/fplayer/%vcode%/.swf', '\/watch\/(\d*\/[\w\-]*)', array (array (6, 'wmode', 'transparent' ) ) ),
 
-			'myspace' => array ('flash', 430, 346, 0, 0, 'http://lads.myspace.com/videos/vplayer.swf', 'VideoID=(\d*)', array (array (6, 'flashvars', 'm=%vcode%&v=2&type=video' ) ) ),
+			'myspace' => array ('iframe', 430, 346, 0, 0, 'http://media.myspace.com/play/video/%vcode%', '', array (array (6, 'wmode', 'transparent' ) ) ),
 
 			'rutube' => array ('flash', 400, 353, 0, 0, 'http://video.rutube.ru/%vcode%', '\.html\?v=([\w]*)' ),
 
@@ -2742,7 +2721,7 @@ class KunenaBbcodeLibrary extends BBCodeLibrary {
 	 *
 	 * @return string
 	 */
-	public function getEbayItemFromCache($ItemID)
+	public static function getEbayItemFromCache($ItemID)
 	{
 		$cache = JFactory::getCache('Kunena_ebay_request');
 		$cache->setCaching(true);
@@ -2750,6 +2729,44 @@ class KunenaBbcodeLibrary extends BBCodeLibrary {
 		$ebay_item = $cache->call(array('KunenaBbcodeLibrary', 'getEbayItem'), $ItemID);
 
 		return $ebay_item;
+	}
+
+	/**
+	 * Render eBay layout from template
+	 */
+	public static function renderEbayLayout($ItemID)
+	{
+		$config = KunenaFactory::getConfig();
+
+		if (empty($config->ebay_api_key))
+		{
+			echo '<b>' . JText::_('COM_KUNENA_LIB_BBCODE_EBAY_ERROR_NO_EBAY_APP_ID') . '</b>';
+
+			return false;
+		}
+		elseif (!is_numeric($ItemID))
+		{
+			echo '<b>' . JText::_('COM_KUNENA_LIB_BBCODE_EBAY_ERROR_WRONG_ITEM_ID') . '</b>';
+
+			return false;
+		}
+
+		$layout = KunenaLayout::factory('BBCode/eBay');
+
+		if ($layout->getPath())
+		{
+			$ebay = SELF::getEbayItemFromCache($ItemID);
+
+			return (string) $layout
+			->set('content', $ItemID)
+			//->set('params', $params)
+			->set('naturalurl', $ebay->Item->ViewItemURLForNaturalSearch)
+			->set('pictureurl', $ebay->Item->PictureURL[0])
+			->set('status', $ebay->Item->ListingStatus)
+			->set('ack', $ebay->Ack)
+			->set('title', $ebay->Item->Title)
+			->setLayout(is_numeric($ItemID) ? 'default' : 'search');
+		}
 	}
 }
 

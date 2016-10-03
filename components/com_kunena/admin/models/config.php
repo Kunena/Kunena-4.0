@@ -5,9 +5,9 @@
  * @package       Kunena.Administrator
  * @subpackage    Models
  *
- * @copyright (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license       http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link          http://www.kunena.org
+ * @link          https://www.kunena.org
  **/
 defined('_JEXEC') or die ();
 
@@ -457,6 +457,8 @@ class KunenaAdminModelConfig extends KunenaModel
 		$useredit[] = JHtml::_('select.option', '1', JText::_('COM_KUNENA_YES'));
 		$useredit[] = JHtml::_('select.option', '2', JText::_('COM_KUNENA_A_EDIT_ALLOWED_IF_REPLIES'));
 		$lists['useredit'] = JHtml::_('select.genericlist', $useredit, 'cfg_useredit', 'class="inputbox" size="1"', 'value', 'text', $this->config->useredit);
+
+		$lists ['allow_change_subject'] = JHtml::_('select.genericlist', $yesno, 'cfg_allow_change_subject', 'class="inputbox" size="1"', 'value', 'text', $this->config->allow_change_subject);
 
 		return $lists;
 	}

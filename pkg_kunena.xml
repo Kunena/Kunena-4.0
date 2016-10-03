@@ -3,13 +3,13 @@
 <extension type="package" version="2.5" method="upgrade">
 	<name>Kunena Forum Package</name>
 	<packagename>kunena</packagename>
-	<version>4.0.4</version>
-	<versionname>Turnau</versionname>
+	<version>4.0.12</version>
+	<versionname>Lima</versionname>
 	<creationDate>@kunenaversiondate@</creationDate>
 	<author>Kunena Team</author>
 	<authorEmail>kunena@kunena.org</authorEmail>
-	<authorUrl>http://www.kunena.org</authorUrl>
-	<copyright>(C) 2008 - 2015 Kunena Team. All rights reserved.</copyright>
+	<authorUrl>https://www.kunena.org</authorUrl>
+	<copyright>(C) 2008 - 2016 Kunena Team. All rights reserved.</copyright>
 	<license>GNU/GPLv3 or later</license>
 	<description>Kunena Forum Package.</description>
 
@@ -35,7 +35,7 @@
 	</files>
 
 	<updateservers>
-		<server type="collection" priority="1" name="Kunena 4.0 Update Site">http://update.kunena.org/4.0/list.xml</server>
+		<server type="collection" priority="1" name="Kunena 5.0 Update Site">https://update.kunena.org/5.0/list.xml</server>
 	</updateservers>
 
 	<restorepoint>

@@ -5,9 +5,9 @@
  * @package       Kunena.Administrator
  * @subpackage    Controllers
  *
- * @copyright (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license       http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link          http://www.kunena.org
+ * @link          https://www.kunena.org
  **/
 defined('_JEXEC') or die ();
 
@@ -155,7 +155,16 @@ class KunenaAdminControllerTrash extends KunenaController
 			$topics = KunenaForumTopicHelper::getTopics($cid, 'none');
 			foreach ($topics as $target)
 			{
-				if ($target->publish(KunenaForum::PUBLISHED))
+				if ($target->getState()==KunenaForum::UNAPPROVED)
+				{
+					$status = KunenaForum::UNAPPROVED;
+				}
+				else
+				{
+					$status = KunenaForum::PUBLISHED;
+				}
+				
+				if ($target->publish($status))
 				{
 					$nb_items++;
 				}

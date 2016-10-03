@@ -4,9 +4,9 @@
  * @package     Kunena.Template.Crypsis
  * @subpackage  Layout.Topic
  *
- * @copyright   (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright   (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link        http://www.kunena.org
+ * @link        https://www.kunena.org
  **/
 defined('_JEXEC') or die;
 
@@ -25,14 +25,7 @@ $txt   = '';
 
 if ($this->topic->ordering)
 {
-	if ($this->topic->getCategory()->class_sfx)
-	{
-		$txt .= '';
-	}
-	else
-	{
-		$txt .= '-stickymsg';
-	}
+	$txt = $this->topic->getCategory()->class_sfx ? $txt . '' : $txt . '-stickymsg';
 }
 
 if ($this->topic->hold == 1)
@@ -60,7 +53,7 @@ if (!empty($this->spacing)) : ?>
 
 <tr class="category<?php echo $this->escape($category->class_sfx).$txt;?>">
 	<?php if ($topic->unread) : ?>
-	<td class="hidden-phone center topic-item-unread">
+	<td class="hidden-xs center topic-item-unread">
 		<?php echo $this->getTopicLink($topic, 'unread', $topic->getIcon($topic->getCategory()->iconset)); ?>
 	<?php else :  ?>
 	<td class="col-md-1 hidden-xs center">
@@ -86,29 +79,39 @@ if (!empty($this->spacing)) : ?>
 				<?php }
 
 				if ($this->topic->ordering != 0)  { ?>
-					<span class="label label-info"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-					<span class="sr-only"></span>STICKY</span></span>
+					<span class="label label-info">
+						<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+						<span class="sr-only"></span>
+					STICKY</span>
 				<?php }
 
 				if ($this->topic->icon_id == 1)  { ?>
-					<span class="label label-danger"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-					<span class="sr-only"></span>IMPORTANT</span></span>
+					<span class="label label-danger">
+						<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+						<span class="sr-only"></span>
+					IMPORTANT</span>
 				<?php }
 
 				if ($this->topic->icon_id == 2) { ?>
-					<span class="label label-primary"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-					<span class="sr-only"></span>QUESTION</span></span>
+					<span class="label label-primary">
+						<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+						<span class="sr-only"></span>
+					QUESTION</span>
 				<?php }
 
 				$str_counts = substr_count($this->topic->subject, 'solved');
 				if ($this->topic->icon_id == 8 || $str_counts) { ?>
-				   <span class="label label-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-				   <span class="sr-only"></span>SOLVED</span></span>
+				<span class="label label-success">
+					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					<span class="sr-only"></span>
+				SOLVED</span>
 			   <?php }
 
 				if ($this->topic->icon_id == 10) { ?>
-					<span class="label label-danger"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
-					<span class="sr-only"></span>BUG</span>
+					<span class="label label-danger">
+						<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+						<span class="sr-only"></span>
+					BUG</span>
 				<?php }
 			}?>
 		</div>

@@ -4,9 +4,9 @@
  * @package     Kunena.Site
  * @subpackage  Controller.User
  *
- * @copyright   (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright   (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link        http://www.kunena.org
+ * @link        https://www.kunena.org
  **/
 defined('_JEXEC') or die;
 
@@ -86,15 +86,52 @@ class ComponentKunenaControllerUserListDisplay extends KunenaControllerDisplay
 	 */
 	protected function prepareDocument()
 	{
-		$page = $this->pagination->pagesCurrent;
-		$pages = $this->pagination->pagesTotal;
+		$page      = $this->pagination->pagesCurrent;
+		$pages     = $this->pagination->pagesTotal;
 		$pagesText = $page > 1 ? " ({$page}/{$pages})" : '';
 
-		$title = JText::_('COM_KUNENA_VIEW_USER_LIST') . $pagesText;
-		$this->setTitle($title);
-		$keywords = $this->config->board_title . ', ' . JText::_('COM_KUNENA_VIEW_USER_LIST');
-		$this->setKeywords($keywords);
-		$description = JText::_('COM_KUNENA_VIEW_USER_LIST') . ': ' . $this->config->board_title ;
-		$this->setDescription($description);
+		$app       = JFactory::getApplication();
+		$menu_item = $app->getMenu()->getActive(); // get the active item
+
+		if ($menu_item)
+		{
+			$params             = $menu_item->params; // get the params
+			$params_title       = $params->get('page_title');
+			$params_keywords    = $params->get('menu-meta_keywords');
+			$params_description = $params->get('menu-meta_description');
+
+			if (!empty($params_title))
+			{
+				$title = $params->get('page_title');
+				$this->setTitle($title);
+			}
+			else
+			{
+				$title = JText::_('COM_KUNENA_VIEW_USER_LIST') . $pagesText;
+				$this->setTitle($title);
+			}
+
+			if (!empty($params_keywords))
+			{
+				$keywords = $params->get('menu-meta_keywords');
+				$this->setKeywords($keywords);
+			}
+			else
+			{
+				$keywords = $this->config->board_title . ', ' . JText::_('COM_KUNENA_VIEW_USER_LIST');
+				$this->setKeywords($keywords);
+			}
+
+			if (!empty($params_description))
+			{
+				$description = $params->get('menu-meta_description');
+				$this->setDescription($description);
+			}
+			else
+			{
+				$description = JText::_('COM_KUNENA_VIEW_USER_LIST') . ': ' . $this->config->board_title;
+				$this->setDescription($description);
+			}
+		}
 	}
 }

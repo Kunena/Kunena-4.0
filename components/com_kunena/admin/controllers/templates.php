@@ -5,9 +5,9 @@
  * @package       Kunena.Administrator
  * @subpackage    Controllers
  *
- * @copyright (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license       http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link          http://www.kunena.org
+ * @link          https://www.kunena.org
  **/
 defined('_JEXEC') or die ();
 
@@ -100,8 +100,7 @@ class KunenaAdminControllerTemplates extends KunenaController
 		$tmp  = JPATH_ROOT . '/tmp/';
 		$tmp_kunena = JPATH_ROOT . '/tmp/kinstall/';
 		$dest = KPATH_SITE . '/template/';
-		$file = $this->app->input->files->get('install_package');
-
+		$file = $this->app->input->files->get('install_package', null, 'raw');
 		if (!JSession::checkToken('post'))
 		{
 			$this->app->enqueueMessage(JText::_('COM_KUNENA_ERROR_TOKEN'), 'error');
@@ -119,7 +118,7 @@ class KunenaAdminControllerTemplates extends KunenaController
 		}
 		else
 		{
-			$success = KunenaFile::upload($file ['tmp_name'], $tmp . $file ['name']);
+			$success = KunenaFile::upload($file ['tmp_name'], $tmp . $file ['name'], false, true);
 
 			if ($success)
 			{

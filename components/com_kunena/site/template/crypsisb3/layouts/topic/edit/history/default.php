@@ -5,9 +5,9 @@
  * @package     Kunena.Template.Crypsis
  * @subpackage  Topic
  *
- * @copyright   (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright   (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link        http://www.kunena.org
+ * @link        https://www.kunena.org
  **/
 defined('_JEXEC') or die ();
 
@@ -16,10 +16,10 @@ $k = 0;
 <div class="pull-right">
 	<div class="btn btn-default btn-small" data-toggle="collapse" data-target="#history">X</div>
 </div>
-<h2>
+<h3>
 	<?php echo JText::_('COM_KUNENA_POST_TOPIC_HISTORY') ?>:
 	<?php echo $this->escape($this->topic->subject) ?>
-</h2>
+</h3>
 
 <div id="history" class="collapse in">
 	<p>

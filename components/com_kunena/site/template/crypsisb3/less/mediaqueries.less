@@ -2,9 +2,9 @@
 * Kunena Component
 * @package Kunena.Template.Crypsis
 *
-* @copyright (C) 2008 - 2015 Kunena Team. All rights reserved.
+* @copyright (C) 2008 - 2016 Kunena Team. All rights reserved.
 * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
-* @link http://www.kunena.org
+* @link https://www.kunena.org
 **/
 
 /* Smartphones Mini */
@@ -107,7 +107,7 @@
 	}
 
 	a.dropdown-toggle,
-	i.glyphicon glyphicon-large {
+	i.glyphicon .glyphicon-large {
 		color: inherit;
 	}
 
@@ -225,6 +225,11 @@
 	}
 }
 
+@media (min-width: 768px) {
+	select#mode {
+		margin-left : 69px;
+	}
+}
 
 /* Tablets */
 @media (min-width: 768px) and (max-width: 959px) {
@@ -238,12 +243,16 @@
 	}
 
 	a.dropdown-toggle,
-	i.glyphicon glyphicon-large {
+	i.glyphicon .glyphicon-large {
 		color: inherit;
 	}
 
 	ul.pull-right {
 		margin: 0;
+	}
+
+	#recent-list {
+		width: 53%;
 	}
 }
 

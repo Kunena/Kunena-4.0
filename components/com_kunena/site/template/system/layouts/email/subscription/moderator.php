@@ -4,9 +4,9 @@
  * @package     Kunena.Template.Crypsis
  * @subpackage  Layout.Email
  *
- * @copyright   (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright   (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link        http://www.kunena.org
+ * @link        https://www.kunena.org
  **/
 defined('_JEXEC') or die;
 
@@ -17,6 +17,9 @@ $this->mail->isHtml(true);
 $config = KunenaConfig::getInstance();
 $subject = $this->message->subject ? $this->message->subject : $this->message->getTopic()->subject;
 $author = $this->message->getAuthor();
+$more = ($this->once ?
+	JText::_($this->message->parent? 'COM_KUNENA_POST_EMAIL_NOTIFICATION_MORE_READ' :
+		'COM_KUNENA_POST_EMAIL_NOTIFICATION_MORE_SUBSCRIBE'). "\n" : '');
 ?>
 
 <h2><?php echo JText::_('COM_KUNENA_POST_EMAIL_MOD1') . " " . $config->board_title; ?></h2>

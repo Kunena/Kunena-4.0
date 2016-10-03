@@ -4,9 +4,9 @@
  * @package Kunena.Framework
  * @subpackage BBCode
  *
- * @copyright (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link http://www.kunena.org
+ * @link https://www.kunena.org
  **/
 defined ( '_JEXEC' ) or die ();
 
@@ -644,9 +644,9 @@ class KunenaBbcodeEditorButton extends KunenaBbcodeEditorElement
 					elseif ($action['name'] == "Colors")
 					{
 						$js = "{className: '" . $action['class'] . "', name:'" . $action['name'] . "', key:'" . $action['key'] . "', openWith:'" . $action['start'] . "', closeWith:'" . $action['end'] . "',dropMenu: [
-						{name:'Black',	openWith:'[color=#000000]', 	closeWith:'[/color]', className:'col1-1' },
-						{name:'Orange',	openWith:'[color=#000044]', 	closeWith:'[/color]', className:'col1-2' },
-						{name:'Red', 	openWith:'[color=#000088]', 	closeWith:'[/color]', className:'col1-3' },
+						{name:'Black',	openWith:'[color=black]', 	closeWith:'[/color]', className:'col1-1' },
+						{name:'Orange',	openWith:'[color=orange]', 	closeWith:'[/color]', className:'col1-2' },
+						{name:'Red', 	openWith:'[color=red]', 	closeWith:'[/color]', className:'col1-3' },
 
 						{name:'Blue', 	openWith:'[color=blue]', 	closeWith:'[/color]', className:'col2-1' },
 						{name:'Purple', openWith:'[color=purple]', 	closeWith:'[/color]', className:'col2-2' },

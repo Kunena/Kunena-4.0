@@ -4,9 +4,9 @@
  * @package     Kunena.Site
  * @subpackage  Controller.Topic
  *
- * @copyright   (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright   (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link        http://www.kunena.org
+ * @link        https://www.kunena.org
  **/
 defined('_JEXEC') or die;
 
@@ -103,7 +103,7 @@ class ComponentKunenaControllerTopicItemDisplay extends KunenaControllerDisplay
 
 			if ($this->message->thread != $this->topic->id
 				|| ($this->topic->category_id != $this->category->id && !isset($channels[$this->topic->category_id]))
-				|| ($mesid && $this->layout != 'threaded'))
+				)
 			{
 				while (@ob_end_clean());
 
@@ -344,6 +344,45 @@ class ComponentKunenaControllerTopicItemDisplay extends KunenaControllerDisplay
 		$total = $this->pagination->pagesTotal;
 		$headerText = $this->headerText . ($total > 1 ? " ({$page}/{$total})" : '');
 
-		$this->setTitle($headerText);
+		$app = JFactory::getApplication();
+		$menu_item   = $app->getMenu()->getActive(); // get the active item
+
+		if ($menu_item)
+		{
+			$params             = $menu_item->params; // get the params
+			$params_title       = $params->get('page_title');
+			$params_keywords    = $params->get('menu-meta_keywords');
+			$params_description = $params->get('menu-meta_description');
+
+			if (!empty($params_title))
+			{
+				$title = $params->get('page_title');
+				$this->setTitle($title);
+			}
+			else
+			{
+				$this->setTitle($headerText);
+			}
+
+			if (!empty($params_keywords))
+			{
+				$keywords = $params->get('menu-meta_keywords');
+				$this->setKeywords($keywords);
+			}
+			else
+			{
+				$this->setKeywords($headerText);
+			}
+
+			if (!empty($params_description))
+			{
+				$description = $params->get('menu-meta_description');
+				$this->setDescription($description);
+			}
+			else
+			{
+				$this->setDescription($headerText);
+			}
+		}
 	}
 }

@@ -4,9 +4,9 @@
  * @package     Kunena.Template.Crypsis
  * @subpackage  Layout.BBCode
  *
- * @copyright   (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright   (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link        http://www.kunena.org
+ * @link        https://www.kunena.org
  **/
 defined('_JEXEC') or die;
 
@@ -20,4 +20,4 @@ defined('_JEXEC') or die;
 <?php else : ?>
 	<strong><?php JText::_('COM_KUNENA_BBCODE_HIDE_IN_MESSAGE'); ?></strong>
 	<div class="kmsgtext-hide"><?php echo $this->content; ?></div>
-<? endif; ?>
+<?php endif; ?>

@@ -3,9 +3,9 @@
  * Kunena Component
  * @package Kunena.Framework
  *
- * @copyright (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link http://www.kunena.org
+ * @link https://www.kunena.org
  *
  * Based on FireBoard Component
  * @copyright (C) 2006 - 2007 Best Of Joomla All rights reserved.
@@ -120,6 +120,7 @@ class KunenaConfig extends JObject
 
 	/**
 	 * @var    string  Category image path; input, text
+	 * @deprecated 4.0.0
 	 * @since  1.0.0
 	 */
 	public $catimagepath = 'category_images';
@@ -1139,6 +1140,12 @@ class KunenaConfig extends JObject
 	 * @since  K4.0.0
 	 */
 	public $twitter_consumer_secret = '';
+
+	/**
+	 * @var    string  Allow to define if the user can change the subject of topic on replies; select, boolean
+	 * @since  K4.0.0
+	 */
+	public $allow_change_subject = 1;
 
 	/**
 	 * @var    integer  Max Links limit; input, number

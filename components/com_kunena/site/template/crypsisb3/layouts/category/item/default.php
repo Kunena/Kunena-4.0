@@ -5,9 +5,9 @@
  * @package         Kunena.Template.Crypsis
  * @subpackage      Layout.Category
  *
- * @copyright   (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright   (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license         http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link            http://www.kunena.org
+ * @link            https://www.kunena.org
  **/
 defined('_JEXEC') or die;
 
@@ -17,7 +17,7 @@ $cols = empty($this->checkbox) ? 5 : 6;
 
 <?php if ($this->category->headerdesc) : ?>
 	<div class="clearfix"></div>
-	</br>
+	<br>
 	<div class="alert alert-info">
 		<a class="close" data-dismiss="alert" href="#"></a>
 		<?php echo $this->category->displayField('headerdesc'); ?>
@@ -48,7 +48,7 @@ $cols = empty($this->checkbox) ? 5 : 6;
 </div>
 <?php endif; ?>
 
-<form action="<?php echo KunenaRoute::_('index.php?option=com_kunena'); ?>" method="post">
+<form action="<?php echo KunenaRoute::_('index.php?option=com_kunena'); ?>" method="post" id="categoryactions">
 	<input type="hidden" name="view" value="topics" />
 	<?php echo JHtml::_('form.token'); ?>
 	<div>

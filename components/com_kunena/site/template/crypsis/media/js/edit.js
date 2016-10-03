@@ -2,9 +2,9 @@
  * Kunena Component
  * @package Kunena.Template.Crypsis
  *
- * @copyright (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link http://www.kunena.org
+ * @link https://www.kunena.org
  **/
 
 /**
@@ -111,14 +111,26 @@ jQuery(document).ready(function() {
 
 	// Load topic icons by ajax request
 	jQuery('#postcatid').change(function() {
+		var catid = jQuery('select#postcatid option').filter(':selected').val();
 		var kurl_topicons_request = jQuery('#kurl_topicons_request').val();
+
+		if (jQuery('#kanynomous-check').length > 0)
+		{
+			if ( arrayanynomousbox[catid] !== undefined ) {
+				jQuery('#kanynomous-check').show();
+				jQuery('#kanonymous').prop('checked', true );
+			} else {
+				jQuery('#kanynomous-check').hide();
+				jQuery('#kanonymous').prop('checked', false );
+			}
+		}
 
 		jQuery.ajax({
 			type: 'POST',
 			url: kurl_topicons_request,
 			async: false,
 			dataType: 'json',
-			data: {catid : jQuery('select#postcatid option').filter(':selected').val() },
+			data: {catid : catid },
 			success: function(data){
 				jQuery('#iconset_topic_list').remove();
 
@@ -139,7 +151,7 @@ jQuery(document).ready(function() {
 						}
 
 						var span_object = jQuery('<span>', {'class': 'kiconsel'}).append(input);
-						var label = jQuery('<label>', {'class': 'radio inline', 'for': value.id}).append(jQuery('<img>', {'src': value.path, 'border': '0', 'al': ''}));
+						var label = jQuery('<label>', {'class': 'radio inline', 'for': 'radio' +value.id}).append(jQuery('<img>', {'src': value.path, 'border': '0', 'al': ''}));
 						span_object.append(label);
 
 						jQuery('#iconset_topic_list').append(span_object);

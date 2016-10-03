@@ -3,9 +3,9 @@
  * Kunena Package
  * @package Kunena.Package
  *
- * @copyright (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link http://www.kunena.org
+ * @link https://www.kunena.org
  **/
 defined ( '_JEXEC' ) or die ();
 
@@ -121,7 +121,7 @@ EOS;
 		$pass  = $this->checkVersion('PHP', phpversion());
 		$pass &= $this->checkVersion('Joomla!', JVERSION);
 		$pass &= $this->checkVersion('MySQL', $db->getVersion ());
-		$pass &= $this->checkDbo($db->name, array('mysql', 'mysqli'));
+		$pass &= $this->checkDbo($db->name, array('mysql', 'mysqli', 'pdomysql'));
 		$pass &= $this->checkExtensions($this->extensions);
 		$pass &= $this->checkKunena($version);
 		return $pass;

@@ -6,7 +6,7 @@
  *
  * @copyright (C) 2008 - 2014 Kunena Team. All rights reserved.
  * @license       http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link          http://www.kunena.org
+ * @link          https://www.kunena.org
  **/
 defined('_JEXEC') or die ();
 
@@ -124,7 +124,7 @@ class Com_KunenaInstallerScript
 		$pass = $this->checkVersion('PHP', phpversion());
 		$pass &= $this->checkVersion('Joomla!', JVERSION);
 		$pass &= $this->checkVersion('MySQL', $db->getVersion());
-		$pass &= $this->checkDbo($db->name, array('mysql', 'mysqli'));
+		$pass &= $this->checkDbo($db->name, array('mysql', 'mysqli', 'pdomysql'));
 		$pass &= $this->checkExtensions($this->extensions);
 		$pass &= $this->checkKunena($version);
 

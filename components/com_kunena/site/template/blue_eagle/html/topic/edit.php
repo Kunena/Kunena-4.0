@@ -4,9 +4,9 @@
  * @package Kunena.Template.Blue_Eagle
  * @subpackage Topic
  *
- * @copyright (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link http://www.kunena.org
+ * @link https://www.kunena.org
  **/
 defined ( '_JEXEC' ) or die ();
 
@@ -93,7 +93,10 @@ $this->k=0;
 			</td>
 
 			<td class="kcol-mid"><input type="text" class="kinputbox postinput required" name="subject" id="subject" size="35"
-				maxlength="<?php echo $this->escape($this->config->maxsubject); ?>" value="<?php echo $this->escape($this->message->subject); ?>" tabindex="1" />
+				maxlength="<?php echo $this->escape($this->config->maxsubject); ?>" <?php if (!$this->config->allow_change_subject && $this->message->parent): ?>disabled<?php endif; ?> value="<?php echo $this->escape($this->message->subject); ?>" tabindex="1" />
+				<?php if (!$this->config->allow_change_subject && $this->topic->exists()): ?>
+					 <input type="hidden" name="subject" value="<?php echo $this->escape($this->message->subject); ?>" />
+				<?php endif; ?>
 			</td>
 		</tr>
 

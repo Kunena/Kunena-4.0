@@ -7,7 +7,7 @@
  *
  * @copyright (C) 2008 - 2014 Kunena Team. All rights reserved.
  * @license       http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link          http://www.kunena.org
+ * @link          https://www.kunena.org
  *
  **/
 
@@ -16,9 +16,9 @@ defined('JPATH_BASE') or die;
 jimport('joomla.filesystem.file');
 
 /**
- * Class to manipulate an image.
+ * Deprecated class placeholder. Class to manipulate an image. Derived from JXtended JImage class Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved.
  *
- * Derived from JXtended JImage class Copyright (C) 2008 - 2009 JXtended, LLC. All rights reserved..
+ * @deprecated Kunena 4.0.x
  */
 class CKunenaImage
 {

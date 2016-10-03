@@ -4,7 +4,7 @@
 	<table name="kunena_aliases">
 		<field primary_key="yes"
 		       name="alias"
-		       type="varchar(255)"
+		       type="varchar(190)"
 		       null="0"/>
 		<field name="type"
 		       type="varchar(10)"
@@ -226,7 +226,7 @@
 		<field name="iconset"
 		       type="varchar(255)"
 		       null="0"
-		       default=""/>
+		       default="default"/>
 		<field name="numTopics"
 		       type="mediumint(8)"
 		       null="0"

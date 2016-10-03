@@ -4,9 +4,9 @@
  * @package     Kunena.Template.Crypsis
  * @subpackage  Layout.Message
  *
- * @copyright   (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright   (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link        http://www.kunena.org
+ * @link        https://www.kunena.org
  **/
 defined('_JEXEC') or die;
 
@@ -33,8 +33,8 @@ $subjectlengthmessage = $this->ktemplate->params->get('SubjectLengthMessage', 20
 </small>
 <div class="clear-fix"></div>
 <div class="horizontal-message">
-	<div class="horizontal-message-bottom badger-info <?php if ($message->getAuthor()->isModerator()) : ?> badger-moderator <?php endif;?>"
-		data-badger="<?php echo (!$isReply) ? $this->escape($avatarname) . ' '. JText::_('COM_KUNENA_MESSAGE_CREATED') : $this->escape($avatarname) . ' '. JText::_('COM_KUNENA_MESSAGE_REPLIED') . ' ' . KunenaHtmlParser::parseText($message->displayField('subject'), $subjectlengthmessage); ?>">
+	<div class="horizontal-message-bottom"
+		data-badger="<?php echo (!$isReply) ? $this->escape($avatarname) . ' '. JText::_('COM_KUNENA_MESSAGE_CREATED') : $this->escape($avatarname) . ' '. JText::_('COM_KUNENA_MESSAGE_REPLIED'), ' ' . KunenaHtmlParser::parseText($message->displayField('subject'), $subjectlengthmessage); ?>">
 		<div class="kmessage">
 			<div class="horizontal-message-text">
 				<p class="kmsg"> <?php echo $message->displayField('message'); ?> </p>

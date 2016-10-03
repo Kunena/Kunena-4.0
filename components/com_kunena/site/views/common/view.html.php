@@ -5,9 +5,9 @@
  * @package       Kunena.Site
  * @subpackage    Views
  *
- * @copyright (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license       http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link          http://www.kunena.org
+ * @link          https://www.kunena.org
  **/
 defined('_JEXEC') or die ();
 
@@ -572,25 +572,32 @@ class KunenaViewCommon extends KunenaView
 	{
 		$mode = KunenaFactory::getConfig()->rss_type;
 
-		switch ($mode)
+		if (!empty(KunenaFactory::getConfig()->rss_feedburner_url))
 		{
-			case 'topic' :
-				$rss_type = 'mode=topics';
-				break;
-			case 'recent' :
-				$rss_type = 'mode=replies';
-				break;
-			case 'post' :
-				$rss_type = 'layout=posts';
-				break;
+			return KunenaFactory::getConfig()->rss_feedburner_url;
 		}
+		else
+		{
+			switch ($mode)
+			{
+				case 'topic' :
+					$rss_type = 'mode=topics';
+					break;
+				case 'recent' :
+					$rss_type = 'mode=replies';
+					break;
+				case 'post' :
+					$rss_type = 'layout=posts';
+					break;
+			}
 
 		return KunenaRoute::_("index.php?option=com_kunena&view=topics&format=feed&layout=default&{$rss_type}{$params}", $xhtml);
+		}
 	}
 
 	function getRSSLink($name, $rel = 'follow', $params = '')
 	{
-		return '<a href="' . $this->getRSSURL($params) . '" rel="' . $rel . '">' . $name . '</a>';
+		return '<a href="' . $this->getRSSURL($params) .'">' . $name . '</a>';
 	}
 
 	public function getStatsLink($name, $class = '', $rel = 'follow')

@@ -4,9 +4,9 @@
  * @package     Kunena.Template.Crypsis
  * @subpackage  Layout.Topic
  *
- * @copyright   (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright   (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link        http://www.kunena.org
+ * @link        https://www.kunena.org
  **/
 defined('_JEXEC') or die;
 
@@ -39,8 +39,10 @@ $this->addScript('js/topic.js');
 	<?php
 	$str_counts = substr_count($this->topic->subject, 'solved');
 	if ($this->topic->icon_id == 8 || $str_counts) : ?>
-		<span class="label label-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-		<span class="sr-only"></span>SOLVED</span></span>
+		<span class="label label-success">
+			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			<span class="sr-only"></span>
+		SOLVED</span>
 	<?php endif; ?>
 </h3>
 

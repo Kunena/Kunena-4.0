@@ -4,9 +4,9 @@
  * @package     Kunena.Template.Crypsis
  * @subpackage  Layout.BBCode
  *
- * @copyright   (C) 2008 - 2015 Kunena Team. All rights reserved.
+ * @copyright   (C) 2008 - 2016 Kunena Team. All rights reserved.
  * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @link        http://www.kunena.org
+ * @link        https://www.kunena.org
  **/
 defined('_JEXEC') or die;
 
@@ -30,6 +30,4 @@ defined('_JEXEC') or die;
 			<?php echo JText::_('COM_KUNENA_LIB_BBCODE_EBAY_LABEL_COMPLETED'); ?>
 		<?php endif; ?>
 	</div>
-<?php else: ?>
-	<b><?php echo JText::_('COM_KUNENA_LIB_BBCODE_EBAY_ERROR_WRONG_ITEM_ID'); ?></b>
 <?php endif; ?>
